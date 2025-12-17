@@ -174,7 +174,10 @@ async function load() {
     // if (majorVersion < 137) {
     // TB136 COMPAT
 
-    folderList = await browser.quickmove.query({ recent: recentStrategy, limit: maxRecentFolders, canFileMessages: true });
+    let [currentTab] = await browser.tabs.query({ currentWindow: true, active: true });
+    let { messages: [msg] = [] } = await messenger.mailTabs.getSelectedMessages(currentTab.id);
+    let account = msg?.folder?.accountId && await browser.accounts.get(msg.folder.accountId);
+    folderList = await browser.quickmove.query({ recent: recentStrategy, limit: maxRecentFolders, canFileMessages: true, account: account });
 
     // } else {
     //   let lastProperty = recentStrategy == "modified" ? "lastUsedAsDestination" : "lastUsed";

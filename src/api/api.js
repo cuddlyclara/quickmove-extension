@@ -37,7 +37,9 @@ this.quickmove = class extends ExtensionAPI {
 
           if (account)
           {
-            folders = folders.concat([...allFolders(account.incomingServer.rootFolder)]);
+            if (acct.incomingServer) {
+              folders = folders.concat([...allFolders(account.incomingServer.rootFolder)]);
+            }
           }
           else
           {
