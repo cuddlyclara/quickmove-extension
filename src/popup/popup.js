@@ -193,8 +193,16 @@ async function load() {
     defaultFolders = null;
   }
 
+  let folderNodes;
+  if(currentFolder?.accountId) {
+    folderNodes = rootNode.folderNodes.filter(folderNode => folderNode.accountId == currentFolder.accountId);
+  }
+  else {
+    folderNodes = rootNode.folderNodes;
+  }
+
   let folderList = document.getElementById("folder-list");
-  folderList.initItems(rootNode.folderNodes, defaultFolders, showFolderPath, excludeSet, partialMatchFullPath, searchAccountName);
+  folderList.initItems(folderNodes, defaultFolders, showFolderPath, excludeSet, partialMatchFullPath, searchAccountName);
   folderList.ignoreFocus = true;
   folderList.addEventListener("item-selected", async (event) => {
     let { folder, altMode } = event.detail;
