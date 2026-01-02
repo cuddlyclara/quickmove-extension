@@ -119,8 +119,8 @@ async function load() {
     let currentMessage = await browser.messageDisplay.getDisplayedMessage(currentTab.id);
     currentFolder = currentMessage?.folder;
   } else if (currentTab?.type == "mail") {
-    let currentMailTab = await browser.mailTabs.getCurrent();
-    currentFolder = currentMailTab?.displayedFolder;
+    let { messages: [currentMessage] = [] } = await messenger.mailTabs.getSelectedMessages(currentTab.id);
+    currentFolder = currentMessage?.folder;
   }
 
   if (currentFolder?.accountId) {
