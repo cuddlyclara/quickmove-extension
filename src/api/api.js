@@ -18,7 +18,7 @@ this.quickmove = class extends ExtensionAPI {
         // bug 1840039 - messenger.folders.query API
         // bug 1945514 - allow differing between MRU/MRMTime
         // TB136 COMPAT
-        async query({ recent, limit, canFileMessages, account}) {
+        async query({ recent, limit, canFileMessages }) {
           function* allFolders(root) {
             if (
               !root.isServer &&
@@ -35,18 +35,9 @@ this.quickmove = class extends ExtensionAPI {
 
           let folders = [];
 
-          if (account)
-          {
+          for (let acct of MailServices.accounts.accounts) {
             if (acct.incomingServer) {
-              folders = folders.concat([...allFolders(account.incomingServer.rootFolder)]);
-            }
-          }
-          else
-          {
-            for (let acct of MailServices.accounts.accounts) {
-              if (acct.incomingServer) {
-                folders = folders.concat([...allFolders(acct.incomingServer.rootFolder)]);
-              }
+              folders = folders.concat([...allFolders(acct.incomingServer.rootFolder)]);
             }
           }
 
